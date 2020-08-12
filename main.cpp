@@ -9,42 +9,53 @@
 #include "avr/interrupt.h"
 #include "stdio.h"
 #include "avr/delay.h"
+#include "avr/sleep.h"
 
 #include "SoftwareSerial.h"
-#include "Sim800l.h"
+#include "Arduino.h"
+#include "MFRC522.h"
 
-Sim800l SIM;
-SoftwareSerial mySerial(5, 4); //SIM800L Tx & Rx is connected to Arduino #3 & #2
-
+#define REED		PIND2
+#define PHOTOCELL	PIND3
+SoftwareSerial	Phone(4,5);
+MFRC522 RFID;
+char number[13] = "+48664059986";
 
 
 int main(void)
 {
-	mySerial.begin(9600);
-	DDRB |= (1 << PINB5);
+	Phone.begin(9600);
+	RFID.PCD_Init();
 	
-	EICRA = (1 << ISC11) | (1 << ISC01) ;
+	DDRB |= (1 << PINB0) | (1 << PINB5);
+	
+	EICRA = (1 << ISC11) | (1 << ISC01) | (1 << ISC00) ;
 	EIMSK = (1 << INT1) | (1 << INT0);
-	PORTD |= (1 << PIND3) | (1 << PIND2);
+	PORTD |= (1 << PHOTOCELL) | (1 << REED);
+	
+    /* Power management */
+    set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+    sleep_enable();
 	sei();
-    /* Replace with your application code */
-	
-	
 	
     while (1) 
     {
-		;
+		tone(8,3000);
+		sleep_cpu();
+		
     }
 	return 0;
 }
 ISR(INT0_vect)
 {
 	cli();
-	_delay_ms(1000);
-	PORTB ^= (1 << PINB5);
-
-	mySerial.println("ATD+ +48793380333;");
-	
+	_delay_ms(4000);
+	if (PIND & (1 << REED))
+	{
+		PORTB ^= (1 << PINB5);
+		
+	}
+	EIFR |= (1 << INTF0);
 	sei();
 }
 
@@ -52,6 +63,7 @@ ISR(INT1_vect)
 {
 	cli();
 	_delay_ms(500);
-	mySerial.println("ATH");
+
 	sei();
 }
+
