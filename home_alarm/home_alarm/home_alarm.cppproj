@@ -154,13 +154,45 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="..\..\lib\include\wiring_analog.c">
+      <SubType>compile</SubType>
+      <Link>lib\wiring_analog.c</Link>
+    </Compile>
+    <Compile Include="..\..\lib\include\wiring_digital.c">
+      <SubType>compile</SubType>
+      <Link>lib\wiring_digital.c</Link>
+    </Compile>
+    <Compile Include="..\..\lib\src\HardwareSerial.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\HardwareSerial.cpp</Link>
+    </Compile>
+    <Compile Include="..\..\lib\src\HardwareSerial0.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\HardwareSerial0.cpp</Link>
+    </Compile>
     <Compile Include="..\..\lib\src\pcf8574.cpp">
       <SubType>compile</SubType>
       <Link>lib\pcf8574.cpp</Link>
     </Compile>
+    <Compile Include="..\..\lib\src\Print.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\Print.cpp</Link>
+    </Compile>
+    <Compile Include="..\..\lib\src\SoftwareSerial.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\SoftwareSerial.cpp</Link>
+    </Compile>
+    <Compile Include="..\..\lib\src\Stream.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\Stream.cpp</Link>
+    </Compile>
     <Compile Include="..\..\lib\src\TWI.cpp">
       <SubType>compile</SubType>
       <Link>lib\TWI.cpp</Link>
+    </Compile>
+    <Compile Include="..\..\lib\src\WString.cpp">
+      <SubType>compile</SubType>
+      <Link>lib\WString.cpp</Link>
     </Compile>
     <Compile Include="main.cpp">
       <SubType>compile</SubType>

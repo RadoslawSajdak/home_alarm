@@ -6,15 +6,20 @@
  */ 
 
 #include <avr/io.h>
+#include "SoftwareSerial.h"
+#include "Arduino.h"
 #include "pcf8574.h"
 #include "avr/interrupt.h"
 #include "avr/delay.h"
+
 
 PCF8574 expander_gpio(0x3b);
 PCF8574 key_pad(0x3c);
 int main(void)
 {
-	
+
+	Serial.println("Hello bro");
+	_delay_ms(500);
 	expander_gpio.pinMode(1, INPUT);
 	expander_gpio.digitalWrite(1,HIGH);
 	/* Setup interrupts */

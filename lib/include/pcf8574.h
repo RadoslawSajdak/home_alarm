@@ -1,11 +1,5 @@
 #include "TWI.h"
-
-#define LOW			 0
-#define HIGH		 1
-
-#define INPUT		 0
-#define INPUT_PULLUP 1
-#define OUTPUT		 2
+#include "Arduino.h"
 class PCF8574
 {
 public:
