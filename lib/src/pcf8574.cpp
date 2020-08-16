@@ -45,6 +45,12 @@ void PCF8574::digitalWrite(uint8_t pin, uint8_t value) {
 	/* Update GPIO values */
 	updateGPIO();
 }
+void PCF8574::digitalRead(uint8_t address, uint8_t size)
+{
+	twi_start();
+	_PIN = twi_read_byte(1);
+	twi_stop();
+}
 void PCF8574::updateGPIO()
 {
 	uint8_t value = (_PIN & ~_DDR) | _PORT;

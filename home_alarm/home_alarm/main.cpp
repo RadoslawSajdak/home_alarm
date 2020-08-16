@@ -10,12 +10,13 @@
 #include "avr/interrupt.h"
 #include "avr/delay.h"
 
+PCF8574 expander_gpio(0x3b);
+PCF8574 key_pad(0x3c);
 int main(void)
 {
-	PCF8574 expander_gpio(0x3b);
+	
 	expander_gpio.pinMode(1, INPUT);
 	expander_gpio.digitalWrite(1,HIGH);
-	
 	/* Setup interrupts */
 	DDRD &= ~(1 << PIND2);
 	PORTD |= (1 << PIND2);
@@ -33,6 +34,7 @@ ISR(INT0_vect)
 	_delay_ms(200);
 	DDRB = 0xff;
 	PORTB ^= 0xff;
+	expander_gpio.digitalWrite(1,LOW);
 	sei();
 }
 
