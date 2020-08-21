@@ -42,7 +42,7 @@ C_SRCS +=  \
 ../../../lib/include/wiring_digital.c \
 ../../../lib/src/HardwareSerial.cpp \
 ../../../lib/src/HardwareSerial0.cpp \
-../../../lib/src/pcf8574.cpp \
+../../../lib/src/PN532.cpp \
 ../../../lib/src/Print.cpp \
 ../../../lib/src/SoftwareSerial.cpp \
 ../../../lib/src/Stream.cpp \
@@ -62,7 +62,7 @@ lib/wiring_analog.o \
 lib/wiring_digital.o \
 lib/HardwareSerial.o \
 lib/HardwareSerial0.o \
-lib/pcf8574.o \
+lib/PN532.o \
 lib/Print.o \
 lib/SoftwareSerial.o \
 lib/Stream.o \
@@ -75,7 +75,7 @@ lib/wiring_analog.o \
 lib/wiring_digital.o \
 lib/HardwareSerial.o \
 lib/HardwareSerial0.o \
-lib/pcf8574.o \
+lib/PN532.o \
 lib/Print.o \
 lib/SoftwareSerial.o \
 lib/Stream.o \
@@ -88,7 +88,7 @@ lib/wiring_analog.d \
 lib/wiring_digital.d \
 lib/HardwareSerial.d \
 lib/HardwareSerial0.d \
-lib/pcf8574.d \
+lib/PN532.d \
 lib/Print.d \
 lib/SoftwareSerial.d \
 lib/Stream.d \
@@ -101,7 +101,7 @@ lib/wiring_analog.d \
 lib/wiring_digital.d \
 lib/HardwareSerial.d \
 lib/HardwareSerial0.d \
-lib/pcf8574.d \
+lib/PN532.d \
 lib/Print.d \
 lib/SoftwareSerial.d \
 lib/Stream.d \
@@ -151,7 +151,7 @@ lib/HardwareSerial0.o: ../../../lib/src/HardwareSerial0.cpp
 	@echo Finished building: $<
 	
 
-lib/pcf8574.o: ../../../lib/src/pcf8574.cpp
+lib/PN532.o: ../../../lib/src/PN532.cpp
 	@echo Building file: $<
 	@echo Invoking: AVR8/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-g++.exe$(QUOTE) -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include" -I"../../../lib/include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega328p" -c -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

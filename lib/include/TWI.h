@@ -27,7 +27,7 @@ void twi_start();
 
  @param[in] data - data to send
 ************************************************************************/
-void twi_write_byte(uint8_t data);
+void twi_write_byte(uint8_t address, uint8_t data);
 
 /************************************************************************
  @brief Read byte send by slave-transmitter
@@ -37,7 +37,7 @@ void twi_write_byte(uint8_t data);
 	 
  @return 8bit from slave-transmitter 
 ************************************************************************/
-uint8_t twi_read_byte(uint8_t use_ACK);
+uint8_t twi_read_byte(uint8_t address, uint8_t use_ACK);
 
 /************************************************************************
  @brief Stop transmission - send stop bit

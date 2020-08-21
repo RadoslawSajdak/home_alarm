@@ -8,7 +8,8 @@ void twi_start(){
 	_delay_ms(10);
 }
 
-void twi_write_byte(uint8_t data){
+void twi_write_byte(uint8_t address, uint8_t data){
+	TWAR = address << 1;
 	TWDR = data;								//TWDR store data to send or received
 	_delay_us(100);
 	TWCR= (1<<TWINT) | (1<<TWEN);				//clear interrupt flag, enable twi
@@ -16,8 +17,9 @@ void twi_write_byte(uint8_t data){
 }
 
 
-uint8_t twi_read_byte(uint8_t use_ACK){
-	TWCR= (1<<TWINT) | (1<<TWEN) | (use_ACK<<TWEA);		//clear interrupt flag, enable twi, (generate ACK bit)
+uint8_t twi_read_byte(uint8_t address, uint8_t use_ACK){
+	TWAR = address << 1;
+	TWCR = (1<<TWINT) | (1<<TWEN) | (use_ACK<<TWEA);		//clear interrupt flag, enable twi, (generate ACK bit)
 	while (!(TWCR&(1<<TWINT))){};
 	return TWDR;								//TWDR store data to send or received
 }

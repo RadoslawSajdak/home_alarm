@@ -214,11 +214,27 @@ Discarded input sections
                 0x00000000        0x2 lib/HardwareSerial0.o
  .text._Z17Serial0_availablev
                 0x00000000       0x14 lib/HardwareSerial0.o
- .text          0x00000000        0x0 lib/pcf8574.o
- .data          0x00000000        0x0 lib/pcf8574.o
- .bss           0x00000000        0x0 lib/pcf8574.o
- .text._ZN7PCF857411digitalReadEhh
-                0x00000000       0x1c lib/pcf8574.o
+ .text          0x00000000        0x0 lib/PN532.o
+ .data          0x00000000        0x0 lib/PN532.o
+ .bss           0x00000000        0x0 lib/PN532.o
+ .text._ZN5PN532C2Eh
+                0x00000000       0x5e lib/PN532.o
+ .text._ZN5PN53212send_commandEPhh
+                0x00000000       0xd2 lib/PN532.o
+ .text._ZN5PN5329read_dataEPhh
+                0x00000000       0x6e lib/PN532.o
+ .text._ZN5PN53210get_statusEv
+                0x00000000       0x26 lib/PN532.o
+ .debug_info    0x00000000      0x4c4 lib/PN532.o
+ .debug_abbrev  0x00000000      0x255 lib/PN532.o
+ .debug_loc     0x00000000      0x465 lib/PN532.o
+ .debug_aranges
+                0x00000000       0x38 lib/PN532.o
+ .debug_ranges  0x00000000       0x28 lib/PN532.o
+ .debug_line    0x00000000      0x26f lib/PN532.o
+ .debug_str     0x00000000      0x319 lib/PN532.o
+ .comment       0x00000000       0x31 lib/PN532.o
+ .debug_frame   0x00000000       0xb0 lib/PN532.o
  .group         0x00000000        0x8 lib/Print.o
  .group         0x00000000        0x8 lib/Print.o
  .group         0x00000000        0x8 lib/Print.o
@@ -365,6 +381,24 @@ Discarded input sections
  .text          0x00000000        0x0 lib/TWI.o
  .data          0x00000000        0x0 lib/TWI.o
  .bss           0x00000000        0x0 lib/TWI.o
+ .text._Z9twi_startv
+                0x00000000       0x24 lib/TWI.o
+ .text._Z14twi_write_bytehh
+                0x00000000       0x28 lib/TWI.o
+ .text._Z13twi_read_bytehh
+                0x00000000       0x24 lib/TWI.o
+ .text._Z8twi_stopv
+                0x00000000       0x24 lib/TWI.o
+ .debug_info    0x00000000      0x26d lib/TWI.o
+ .debug_abbrev  0x00000000      0x138 lib/TWI.o
+ .debug_loc     0x00000000      0x139 lib/TWI.o
+ .debug_aranges
+                0x00000000       0x38 lib/TWI.o
+ .debug_ranges  0x00000000       0x28 lib/TWI.o
+ .debug_line    0x00000000      0x1b4 lib/TWI.o
+ .debug_str     0x00000000      0x27a lib/TWI.o
+ .comment       0x00000000       0x31 lib/TWI.o
+ .debug_frame   0x00000000       0x54 lib/TWI.o
  .text          0x00000000        0x0 lib/WString.o
  .data          0x00000000        0x0 lib/WString.o
  .bss           0x00000000        0x0 lib/WString.o
@@ -999,7 +1033,7 @@ LOAD lib/wiring_analog.o
 LOAD lib/wiring_digital.o
 LOAD lib/HardwareSerial.o
 LOAD lib/HardwareSerial0.o
-LOAD lib/pcf8574.o
+LOAD lib/PN532.o
 LOAD lib/Print.o
 LOAD lib/SoftwareSerial.o
 LOAD lib/Stream.o
@@ -1117,7 +1151,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0x828
+.text           0x00000000      0x636
  *(.vectors)
  .vectors       0x00000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
                 0x00000000                __vector_default
@@ -1141,152 +1175,124 @@ END GROUP
                 0x00000068                __ctors_start = .
  *(.ctors)
  .ctors         0x00000068        0x2 lib/HardwareSerial0.o
- .ctors         0x0000006a        0x2 main.o
-                0x0000006c                __ctors_end = .
-                0x0000006c                __dtors_start = .
+                0x0000006a                __ctors_end = .
+                0x0000006a                __dtors_start = .
  *(.dtors)
-                0x0000006c                __dtors_end = .
+                0x0000006a                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000006c        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
-                0x0000006c                __init
+ .init0         0x0000006a        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
+                0x0000006a                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000006c        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init2         0x0000006a        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000078       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
-                0x00000078                __do_copy_data
- .init4         0x0000008e       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
-                0x0000008e                __do_clear_bss
+ .init4         0x00000076       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_copy_data.o)
+                0x00000076                __do_copy_data
+ .init4         0x0000008c       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_clear_bss.o)
+                0x0000008c                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
  *(.init6)
- .init6         0x0000009e       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_ctors.o)
-                0x0000009e                __do_global_ctors
+ .init6         0x0000009c       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_ctors.o)
+                0x0000009c                __do_global_ctors
  *(.init6)
  *(.init7)
  *(.init7)
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000000b4        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
+ .init9         0x000000b2        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
  *(.init9)
  *(.text)
- .text          0x000000bc        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
-                0x000000bc                __vector_22
-                0x000000bc                __vector_24
-                0x000000bc                __vector_12
-                0x000000bc                __bad_interrupt
-                0x000000bc                __vector_6
-                0x000000bc                __vector_23
-                0x000000bc                __vector_25
-                0x000000bc                __vector_11
-                0x000000bc                __vector_13
-                0x000000bc                __vector_17
-                0x000000bc                __vector_7
-                0x000000bc                __vector_9
-                0x000000bc                __vector_2
-                0x000000bc                __vector_21
-                0x000000bc                __vector_15
-                0x000000bc                __vector_8
-                0x000000bc                __vector_14
-                0x000000bc                __vector_10
-                0x000000bc                __vector_16
-                0x000000bc                __vector_20
-                0x000000c0                . = ALIGN (0x2)
+ .text          0x000000ba        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
+                0x000000ba                __vector_22
+                0x000000ba                __vector_24
+                0x000000ba                __vector_12
+                0x000000ba                __bad_interrupt
+                0x000000ba                __vector_6
+                0x000000ba                __vector_23
+                0x000000ba                __vector_25
+                0x000000ba                __vector_11
+                0x000000ba                __vector_13
+                0x000000ba                __vector_17
+                0x000000ba                __vector_7
+                0x000000ba                __vector_9
+                0x000000ba                __vector_2
+                0x000000ba                __vector_21
+                0x000000ba                __vector_15
+                0x000000ba                __vector_8
+                0x000000ba                __vector_14
+                0x000000ba                __vector_10
+                0x000000ba                __vector_16
+                0x000000ba                __vector_20
+                0x000000be                . = ALIGN (0x2)
  *(.text.*)
  .text._ZN14HardwareSerial9availableEv
-                0x000000c0       0x18 lib/HardwareSerial.o
-                0x000000c0                _ZN14HardwareSerial9availableEv
+                0x000000be       0x18 lib/HardwareSerial.o
+                0x000000be                _ZN14HardwareSerial9availableEv
  .text._ZN14HardwareSerial4peekEv
-                0x000000d8       0x1c lib/HardwareSerial.o
-                0x000000d8                _ZN14HardwareSerial4peekEv
+                0x000000d6       0x1c lib/HardwareSerial.o
+                0x000000d6                _ZN14HardwareSerial4peekEv
  .text._ZN14HardwareSerial4readEv
-                0x000000f4       0x28 lib/HardwareSerial.o
-                0x000000f4                _ZN14HardwareSerial4readEv
+                0x000000f2       0x28 lib/HardwareSerial.o
+                0x000000f2                _ZN14HardwareSerial4readEv
  .text._ZN14HardwareSerial17availableForWriteEv
-                0x0000011c       0x24 lib/HardwareSerial.o
-                0x0000011c                _ZN14HardwareSerial17availableForWriteEv
+                0x0000011a       0x24 lib/HardwareSerial.o
+                0x0000011a                _ZN14HardwareSerial17availableForWriteEv
  .text._ZN14HardwareSerial17_tx_udr_empty_irqEv
-                0x00000140       0x56 lib/HardwareSerial.o
-                0x00000140                _ZN14HardwareSerial17_tx_udr_empty_irqEv
+                0x0000013e       0x56 lib/HardwareSerial.o
+                0x0000013e                _ZN14HardwareSerial17_tx_udr_empty_irqEv
  .text._ZN14HardwareSerial5flushEv
-                0x00000196       0x48 lib/HardwareSerial.o
-                0x00000196                _ZN14HardwareSerial5flushEv
+                0x00000194       0x48 lib/HardwareSerial.o
+                0x00000194                _ZN14HardwareSerial5flushEv
  .text._ZN14HardwareSerial5writeEh
-                0x000001de       0xaa lib/HardwareSerial.o
-                0x000001de                _ZN14HardwareSerial5writeEh
+                0x000001dc       0xaa lib/HardwareSerial.o
+                0x000001dc                _ZN14HardwareSerial5writeEh
  .text.__vector_18
-                0x00000288       0x70 lib/HardwareSerial0.o
-                0x00000288                __vector_18
+                0x00000286       0x70 lib/HardwareSerial0.o
+                0x00000286                __vector_18
  .text.__vector_19
-                0x000002f8       0x4c lib/HardwareSerial0.o
-                0x000002f8                __vector_19
+                0x000002f6       0x4c lib/HardwareSerial0.o
+                0x000002f6                __vector_19
  .text._GLOBAL__sub_I___vector_18
-                0x00000344       0x5a lib/HardwareSerial0.o
- .text._ZN7PCF8574C2Eh
-                0x0000039e       0x28 lib/pcf8574.o
-                0x0000039e                _ZN7PCF8574C1Eh
-                0x0000039e                _ZN7PCF8574C2Eh
- .text._ZN7PCF857410updateGPIOEv
-                0x000003c6       0x32 lib/pcf8574.o
-                0x000003c6                _ZN7PCF857410updateGPIOEv
- .text._ZN7PCF85747pinModeEhh
-                0x000003f8       0x72 lib/pcf8574.o
-                0x000003f8                _ZN7PCF85747pinModeEhh
- .text._ZN7PCF857412digitalWriteEhh
-                0x0000046a       0x3a lib/pcf8574.o
-                0x0000046a                _ZN7PCF857412digitalWriteEhh
+                0x00000342       0x5a lib/HardwareSerial0.o
  .text._ZN5Print5writeEPKhj
-                0x000004a4       0x5e lib/Print.o
-                0x000004a4                _ZN5Print5writeEPKhj
+                0x0000039c       0x5e lib/Print.o
+                0x0000039c                _ZN5Print5writeEPKhj
  .text._ZN5Print5printEPKc
-                0x00000502       0x2c lib/Print.o
-                0x00000502                _ZN5Print5printEPKc
+                0x000003fa       0x2c lib/Print.o
+                0x000003fa                _ZN5Print5printEPKc
  .text._ZN5Print7printlnEv
-                0x0000052e       0x18 lib/Print.o
-                0x0000052e                _ZN5Print7printlnEv
+                0x00000426       0x18 lib/Print.o
+                0x00000426                _ZN5Print7printlnEv
  .text._ZN5Print7printlnEPKc
-                0x00000546       0x24 lib/Print.o
-                0x00000546                _ZN5Print7printlnEPKc
+                0x0000043e       0x24 lib/Print.o
+                0x0000043e                _ZN5Print7printlnEPKc
  .text.__vector_3
-                0x0000056a      0x15c lib/SoftwareSerial.o
-                0x0000056a                __vector_5
-                0x0000056a                __vector_4
-                0x0000056a                __vector_3
- .text._Z9twi_startv
-                0x000006c6       0x24 lib/TWI.o
-                0x000006c6                _Z9twi_startv
- .text._Z14twi_write_byteh
-                0x000006ea       0x22 lib/TWI.o
-                0x000006ea                _Z14twi_write_byteh
- .text._Z13twi_read_byteh
-                0x0000070c       0x1e lib/TWI.o
-                0x0000070c                _Z13twi_read_byteh
- .text._Z8twi_stopv
-                0x0000072a       0x24 lib/TWI.o
-                0x0000072a                _Z8twi_stopv
- .text.main     0x0000074e       0x4a main.o
-                0x0000074e                main
+                0x00000462      0x15c lib/SoftwareSerial.o
+                0x00000462                __vector_5
+                0x00000462                __vector_4
+                0x00000462                __vector_3
+ .text.main     0x000005be       0x32 main.o
+                0x000005be                main
  .text.__vector_1
-                0x00000798       0x6a main.o
-                0x00000798                __vector_1
- .text._GLOBAL__sub_I_expander_gpio
-                0x00000802       0x16 main.o
- .text.libgcc   0x00000818        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_tablejump2.o)
-                0x00000818                __tablejump2__
-                0x00000824                . = ALIGN (0x2)
+                0x000005f0       0x36 main.o
+                0x000005f0                __vector_1
+ .text.libgcc   0x00000626        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_tablejump2.o)
+                0x00000626                __tablejump2__
+                0x00000632                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000824        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
-                0x00000824                _exit
-                0x00000824                exit
+ .fini9         0x00000632        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+                0x00000632                _exit
+                0x00000632                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -1305,11 +1311,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000824        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
+ .fini0         0x00000632        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000828                _etext = .
+                0x00000636                _etext = .
 
-.data           0x00800100       0x2c load address 0x00000828
+.data           0x00800100       0x2c load address 0x00000636
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1329,7 +1335,7 @@ END GROUP
                 0x0080012c                _edata = .
                 0x0080012c                PROVIDE (__data_end, .)
 
-.bss            0x0080012c       0xe9
+.bss            0x0080012c       0xe1
                 0x0080012c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -1347,22 +1353,17 @@ END GROUP
  .bss._ZN14SoftwareSerial13active_objectE
                 0x0080020b        0x2 lib/SoftwareSerial.o
                 0x0080020b                _ZN14SoftwareSerial13active_objectE
- .bss.key_pad   0x0080020d        0x4 main.o
-                0x0080020d                key_pad
- .bss.expander_gpio
-                0x00800211        0x4 main.o
-                0x00800211                expander_gpio
  *(COMMON)
-                0x00800215                PROVIDE (__bss_end, .)
-                0x00000828                __data_load_start = LOADADDR (.data)
-                0x00000854                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x0080020d                PROVIDE (__bss_end, .)
+                0x00000636                __data_load_start = LOADADDR (.data)
+                0x00000662                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800215        0x0
+.noinit         0x0080020d        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800215                _end = .
-                0x00800215                PROVIDE (__heap_start, .)
+                0x0080020d                _end = .
+                0x0080020d                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -1406,10 +1407,8 @@ END GROUP
  .comment       0x00000000       0x30 lib/HardwareSerial.o
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 lib/HardwareSerial0.o
- .comment       0x00000030       0x31 lib/pcf8574.o
  .comment       0x00000030       0x31 lib/Print.o
  .comment       0x00000030       0x31 lib/SoftwareSerial.o
- .comment       0x00000030       0x31 lib/TWI.o
  .comment       0x00000030       0x31 main.o
 
 .note.gnu.avr.deviceinfo
@@ -1432,96 +1431,78 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x2f8
+.debug_aranges  0x00000000      0x278
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x68 lib/HardwareSerial.o
  .debug_aranges
                 0x00000068       0x48 lib/HardwareSerial0.o
  .debug_aranges
-                0x000000b0       0x40 lib/pcf8574.o
+                0x000000b0       0xf8 lib/Print.o
  .debug_aranges
-                0x000000f0       0xf8 lib/Print.o
+                0x000001a8       0xa8 lib/SoftwareSerial.o
  .debug_aranges
-                0x000001e8       0xa8 lib/SoftwareSerial.o
- .debug_aranges
-                0x00000290       0x38 lib/TWI.o
- .debug_aranges
-                0x000002c8       0x30 main.o
+                0x00000250       0x28 main.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x924f
+.debug_info     0x00000000     0x8951
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4     0x1c42 lib/HardwareSerial.o
  .debug_info    0x00002236     0x18b9 lib/HardwareSerial0.o
- .debug_info    0x00003aef      0x488 lib/pcf8574.o
- .debug_info    0x00003f77     0x2568 lib/Print.o
- .debug_info    0x000064df     0x260b lib/SoftwareSerial.o
- .debug_info    0x00008aea      0x251 lib/TWI.o
- .debug_info    0x00008d3b      0x514 main.o
+ .debug_info    0x00003aef     0x2568 lib/Print.o
+ .debug_info    0x00006057     0x260b lib/SoftwareSerial.o
+ .debug_info    0x00008662      0x2ef main.o
 
-.debug_abbrev   0x00000000     0x1c3c
+.debug_abbrev   0x00000000     0x18ab
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_abbrev  0x000005a2      0x426 lib/HardwareSerial.o
  .debug_abbrev  0x000009c8      0x39d lib/HardwareSerial0.o
- .debug_abbrev  0x00000d65      0x1c9 lib/pcf8574.o
- .debug_abbrev  0x00000f2e      0x3ce lib/Print.o
- .debug_abbrev  0x000012fc      0x5c9 lib/SoftwareSerial.o
- .debug_abbrev  0x000018c5      0x129 lib/TWI.o
- .debug_abbrev  0x000019ee      0x24e main.o
+ .debug_abbrev  0x00000d65      0x3ce lib/Print.o
+ .debug_abbrev  0x00001133      0x5c9 lib/SoftwareSerial.o
+ .debug_abbrev  0x000016fc      0x1af main.o
 
-.debug_line     0x00000000     0x1cac
+.debug_line     0x00000000     0x18e2
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x133 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000133      0x4d7 lib/HardwareSerial.o
  .debug_line    0x0000060a      0x279 lib/HardwareSerial0.o
- .debug_line    0x00000883      0x1e7 lib/pcf8574.o
- .debug_line    0x00000a6a      0x6b6 lib/Print.o
- .debug_line    0x00001120      0x77a lib/SoftwareSerial.o
- .debug_line    0x0000189a      0x1a8 lib/TWI.o
- .debug_line    0x00001a42      0x26a main.o
+ .debug_line    0x00000883      0x6b6 lib/Print.o
+ .debug_line    0x00000f39      0x77a lib/SoftwareSerial.o
+ .debug_line    0x000016b3      0x22f main.o
 
-.debug_frame    0x00000000      0x8d8
+.debug_frame    0x00000000      0x7b4
  *(.debug_frame)
  .debug_frame   0x00000000      0x104 lib/HardwareSerial.o
  .debug_frame   0x00000104       0xec lib/HardwareSerial0.o
- .debug_frame   0x000001f0       0x8c lib/pcf8574.o
- .debug_frame   0x0000027c      0x3a0 lib/Print.o
- .debug_frame   0x0000061c      0x1dc lib/SoftwareSerial.o
- .debug_frame   0x000007f8       0x54 lib/TWI.o
- .debug_frame   0x0000084c       0x8c main.o
+ .debug_frame   0x000001f0      0x3a0 lib/Print.o
+ .debug_frame   0x00000590      0x1dc lib/SoftwareSerial.o
+ .debug_frame   0x0000076c       0x48 main.o
 
-.debug_str      0x00000000     0x2247
+.debug_str      0x00000000     0x209c
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.3.300/gcc/dev/atmega328p/avr5/crtatmega328p.o
- .debug_str     0x00000208     0x135b lib/HardwareSerial.o
+ .debug_str     0x00000208     0x1360 lib/HardwareSerial.o
                                0x13f9 (size before relaxing)
- .debug_str     0x00001563       0xcf lib/HardwareSerial0.o
+ .debug_str     0x00001568       0xcf lib/HardwareSerial0.o
                                0x1206 (size before relaxing)
- .debug_str     0x00001632      0x170 lib/pcf8574.o
-                                0x366 (size before relaxing)
- .debug_str     0x000017a2      0x3cc lib/Print.o
+ .debug_str     0x00001637      0x3d1 lib/Print.o
                                0x102c (size before relaxing)
- .debug_str     0x00001b6e      0x61d lib/SoftwareSerial.o
+ .debug_str     0x00001a08      0x632 lib/SoftwareSerial.o
                                0x1700 (size before relaxing)
- .debug_str     0x0000218b       0x79 lib/TWI.o
-                                0x270 (size before relaxing)
- .debug_str     0x00002204       0x43 main.o
-                                0x3df (size before relaxing)
+ .debug_str     0x0000203a       0x62 main.o
+                                0x2a1 (size before relaxing)
 
-.debug_loc      0x00000000     0x34a1
+.debug_loc      0x00000000     0x3037
  *(.debug_loc)
  .debug_loc     0x00000000      0x44d lib/HardwareSerial.o
  .debug_loc     0x0000044d      0x1ca lib/HardwareSerial0.o
- .debug_loc     0x00000617      0x29b lib/pcf8574.o
- .debug_loc     0x000008b2     0x1bd5 lib/Print.o
- .debug_loc     0x00002487      0xd72 lib/SoftwareSerial.o
- .debug_loc     0x000031f9      0x124 lib/TWI.o
- .debug_loc     0x0000331d      0x184 main.o
+ .debug_loc     0x00000617     0x1bd5 lib/Print.o
+ .debug_loc     0x000021ec      0xd72 lib/SoftwareSerial.o
+ .debug_loc     0x00002f5e       0xd9 main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1541,15 +1522,13 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x318
+.debug_ranges   0x00000000      0x2b8
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x58 lib/HardwareSerial.o
  .debug_ranges  0x00000058       0x38 lib/HardwareSerial0.o
- .debug_ranges  0x00000090       0x30 lib/pcf8574.o
- .debug_ranges  0x000000c0      0x118 lib/Print.o
- .debug_ranges  0x000001d8       0xf8 lib/SoftwareSerial.o
- .debug_ranges  0x000002d0       0x28 lib/TWI.o
- .debug_ranges  0x000002f8       0x20 main.o
+ .debug_ranges  0x00000090      0x118 lib/Print.o
+ .debug_ranges  0x000001a8       0xf8 lib/SoftwareSerial.o
+ .debug_ranges  0x000002a0       0x18 main.o
 
 .debug_macro
  *(.debug_macro)

@@ -8,20 +8,21 @@
 #include <avr/io.h>
 #include "SoftwareSerial.h"
 #include "Arduino.h"
-#include "pcf8574.h"
+//#include "pcf8574.h"
 #include "avr/interrupt.h"
 #include "avr/delay.h"
+#include "PN532.h"
 
 
-PCF8574 expander_gpio(0x3b);
-PCF8574 key_pad(0x3c);
+//PCF8574 expander_gpio(0x3b);
+//PCF8574 key_pad(0x3c);
 int main(void)
 {
 
 	Serial.println("Hello bro");
 	_delay_ms(500);
-	expander_gpio.pinMode(1, INPUT);
-	expander_gpio.digitalWrite(1,HIGH);
+// 	expander_gpio.pinMode(1, INPUT);
+// 	expander_gpio.digitalWrite(1,HIGH);
 	/* Setup interrupts */
 	DDRD &= ~(1 << PIND2);
 	PORTD |= (1 << PIND2);
@@ -39,7 +40,7 @@ ISR(INT0_vect)
 	_delay_ms(200);
 	DDRB = 0xff;
 	PORTB ^= 0xff;
-	expander_gpio.digitalWrite(1,LOW);
+	//expander_gpio.digitalWrite(1,LOW);
 	sei();
 }
 

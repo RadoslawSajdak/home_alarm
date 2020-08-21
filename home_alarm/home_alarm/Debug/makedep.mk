@@ -10,7 +10,7 @@
 
 ..\..\lib\src\HardwareSerial0.cpp
 
-..\..\lib\src\pcf8574.cpp
+..\..\lib\src\PN532.cpp
 
 ..\..\lib\src\Print.cpp
 
