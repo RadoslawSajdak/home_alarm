@@ -12,13 +12,17 @@
 
 ..\..\lib\src\PN532.cpp
 
+..\..\lib\src\PN532_I2C.cpp
+
 ..\..\lib\src\Print.cpp
 
 ..\..\lib\src\SoftwareSerial.cpp
 
 ..\..\lib\src\Stream.cpp
 
-..\..\lib\src\TWI.cpp
+..\..\lib\src\twi.c
+
+..\..\lib\src\Wire.cpp
 
 ..\..\lib\src\WString.cpp
 

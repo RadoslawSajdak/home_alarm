@@ -1,69 +1,55 @@
 /*
- * TWI library
- * Created: 04.2020
- * Author : Mateusz Kozyra
- * Purpose : Part of project made at AGH UST.
- * Description : Main library, necessary for communication with external devices 
- * Features : TWI/I2C communication read and write
- */ 
+  twi.h - TWI/I2C library for Wiring & Arduino
+  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
 
+  This library is free software; you can redistribute it and/or
+  modify it under the terms of the GNU Lesser General Public
+  License as published by the Free Software Foundation; either
+  version 2.1 of the License, or (at your option) any later version.
 
-#ifndef TWI_H_
-#define TWI_H_
+  This library is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  Lesser General Public License for more details.
 
-#define F_CPU 16000000UL//16 MHz
-#include <util/delay.h>#include <avr/io.h>
-#include <stdbool.h>
+  You should have received a copy of the GNU Lesser General Public
+  License along with this library; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
+#ifndef twi_h
+#define twi_h
 
+  #include <inttypes.h>
 
-/************************************************************************
- @brief Start TWI transmission
-************************************************************************/
-void twi_start();
+  //#define ATMEGA8
 
-/************************************************************************
- @brief Send byte through TWI - only if transmission started
+  #ifndef TWI_FREQ
+  #define TWI_FREQ 100000L
+  #endif
 
- @param[in] data - data to send
-************************************************************************/
-void twi_write_byte(uint8_t address, uint8_t data);
+  #ifndef TWI_BUFFER_LENGTH
+  #define TWI_BUFFER_LENGTH 32
+  #endif
 
-/************************************************************************
- @brief Read byte send by slave-transmitter
+  #define TWI_READY 0
+  #define TWI_MRX   1
+  #define TWI_MTX   2
+  #define TWI_SRX   3
+  #define TWI_STX   4
+  
+  void twi_init(void);
+  void twi_disable(void);
+  void twi_setAddress(uint8_t);
+  void twi_setFrequency(uint32_t);
+  uint8_t twi_readFrom(uint8_t, uint8_t*, uint8_t, uint8_t);
+  uint8_t twi_writeTo(uint8_t, uint8_t*, uint8_t, uint8_t, uint8_t);
+  uint8_t twi_transmit(const uint8_t*, uint8_t);
+  void twi_attachSlaveRxEvent( void (*)(uint8_t*, int) );
+  void twi_attachSlaveTxEvent( void (*)(void) );
+  void twi_reply(uint8_t);
+  void twi_stop(void);
+  void twi_releaseBus(void);
 
- @param[in] use_ACK value{0 or 1} bool type decide if send ACK bit or not
-	 after receiving data
-	 
- @return 8bit from slave-transmitter 
-************************************************************************/
-uint8_t twi_read_byte(uint8_t address, uint8_t use_ACK);
+#endif
 
-/************************************************************************
- @brief Stop transmission - send stop bit
-************************************************************************/
-void twi_stop();
-
-/************************************************************************
- @brief Full tx function - start transmission, send few bytes of data 
-	and stop transmission
-
- @param[in] address - slave device address 
- @param[in] *data - pointer where starts data to send
- @param[in] amount - number of bytes to send 
- @param[in] stop - stop transmission or hold line
-************************************************************************/
-// void twi_tx(uint8_t adress, uint8_t *data, uint8_t amount, bool stop);
-
-/************************************************************************
- @brief Full rx function - start transmission, read few bytes of data 
-	and stop transmission
-
- @param[in] address - slave device address 
- @param[in] *data - pointer where we store received data
- @param[in] amount - number of bytes to read
- @param[in] stop - stop transmission or hold line
-************************************************************************/
-// void twi_rx(uint8_t adress, uint8_t *data, uint8_t amount, bool stop);
-
-#endif  /*TWI_H_*/ 
