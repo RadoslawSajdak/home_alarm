@@ -10,7 +10,7 @@
 #define RED_LED 5
 #define GREEN_LED 6
 #define SIGNAL 7
-#define NUMBER_OF_CARDS 2
+#define NUMBER_OF_CARDS 3
 #define TIME_FOR_UNLOCK 20
 #define TIME_BEFORE_HANG 10
 PN532_I2C i2c(Wire);
@@ -21,7 +21,8 @@ char * number = "+48664059986";
 bool error; //to catch the response of sendSms
 volatile uint8_t card[NUMBER_OF_CARDS][4] = {
                                             {0xF7,0x9F,0xCB, 0xA6},
-                                            {0xD9, 0xA7, 0xA4, 0xB2}
+                                            {0xD9, 0xA7, 0xA4, 0xB2},
+                                            {0x2A, 0x2D, 0x00, 0x40}
                                             };
 
 
@@ -29,6 +30,7 @@ volatile uint8_t state = OPEN;
 volatile bool alarm = false; 
 volatile uint8_t alarm_counter = 0;
 volatile uint8_t occurance = 0;
+volatile bool called = false;
 void setup() {
   //Outputs setup
   pinMode(RED_LED,OUTPUT);
@@ -93,10 +95,12 @@ void loop() {
       timer(true);
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
       //detachInterrupt(digitalPinToInterrupt(PIR));
-      if( (alarm_counter > TIME_FOR_UNLOCK) && (digitalRead(REED_SWITCH) == HIGH))
+      if( (alarm_counter > TIME_FOR_UNLOCK) && ( (digitalRead(REED_SWITCH) == HIGH) || called) )
         {
+          called = true;
           Sim800l.callNumber(number);
-          delay(3000);
+          //delay(3000);
+          
           if( alarm_counter - TIME_FOR_UNLOCK > TIME_BEFORE_HANG )
           {
             alarm_counter = 0;
@@ -105,12 +109,18 @@ void loop() {
           }
         occurance ++;
         Serial.println("ALARM!!!");
-
-        if(occurance > 2 )
+        
+        if(occurance > 3 )
         {
           digitalWrite(SIGNAL,HIGH);
         }
         }
+     if(alarm_counter > 3 * TIME_FOR_UNLOCK)
+     {
+      timer(false);
+      lock();
+      alarm = false;
+     }
       
     }
     if(correct)
@@ -120,6 +130,7 @@ void loop() {
       Serial.println("Unlocked");
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
       Sim800l.hangoffCall();
+      called = false;
       digitalWrite(SIGNAL,LOW);
       delay(2000);
       occurance = 0;
@@ -169,10 +180,13 @@ void lock()
   state = CLOSED;
   alarm_counter = 0;
   delay(3000);
-  timer(true);
-  while( alarm_counter < TIME_FOR_UNLOCK );
-  timer(false);
-  alarm_counter = 0;
+  if(alarm == false)
+  {
+    timer(true);
+    while( alarm_counter < TIME_FOR_UNLOCK );
+    timer(false);
+    alarm_counter = 0;
+  }
   Serial.println("Locked");
   EIFR = 0x11;
   attachInterrupt(digitalPinToInterrupt(REED_SWITCH),int0, RISING);
