@@ -8,11 +8,14 @@
 #define REED_SWITCH 2
 #define PIR 3
 #define RED_LED 5
-#define GREEN_LED 6
-#define SIGNAL 7
-#define NUMBER_OF_CARDS 3
+#define GREEN_LED 4
+#define SIGNAL A0
+#define NUMBER_OF_CARDS 4
 #define TIME_FOR_UNLOCK 20
-#define TIME_BEFORE_HANG 10
+#define TIME_BEFORE_HANG 20
+#define TIME_OF_ATTACK 2//in minutes
+#define REPEAT_CALLS 3
+#define SENSITIVITY 15
 PN532_I2C i2c(Wire);
 PN532 nfc(i2c);
 
@@ -20,17 +23,20 @@ Sim800l Sim800l;  //to declare the library
 char * number = "+48664059986";
 bool error; //to catch the response of sendSms
 volatile uint8_t card[NUMBER_OF_CARDS][4] = {
-                                            {0xF7,0x9F,0xCB, 0xA6},
-                                            {0xD9, 0xA7, 0xA4, 0xB2},
-                                            {0x2A, 0x2D, 0x00, 0x40}
+                                            {0xCA,0x48,0x79, 0x81},
+                                            {0xD6, 0xB3, 0x0B, 0x0F},
+                                            {0x3A, 0xAF, 0x00, 0x81},
+                                            {0xD6, 0x92, 0x14, 0x0F}
                                             };
 
 
 volatile uint8_t state = OPEN;
 volatile bool alarm = false; 
-volatile uint8_t alarm_counter = 0;
+volatile double alarm_counter = 0;
 volatile uint8_t occurance = 0;
 volatile bool called = false;
+volatile bool attack = false;
+volatile uint8_t interrupt_pir = 0;
 void setup() {
   //Outputs setup
   pinMode(RED_LED,OUTPUT);
@@ -40,6 +46,7 @@ void setup() {
   pinMode(PIR, INPUT_PULLUP);
   digitalWrite(RED_LED,HIGH);
   digitalWrite(GREEN_LED,HIGH);
+  digitalWrite(SIGNAL,LOW);
   
   Serial.begin(115200);
 
@@ -90,49 +97,52 @@ void loop() {
   if(state == CLOSED)
   {
     correct = readUID();
-    if( (alarm == true) & !(readUID()) )
+    if (alarm_counter > TIME_FOR_UNLOCK && alarm == false && interrupt_pir < SENSITIVITY) stop_timer();
+    if( (alarm == true) && !(readUID()) )
     {
       timer(true);
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
-      //detachInterrupt(digitalPinToInterrupt(PIR));
-      if( (alarm_counter > TIME_FOR_UNLOCK) && ( (digitalRead(REED_SWITCH) == HIGH) || called) )
+      if( (alarm_counter > TIME_FOR_UNLOCK) &&  ((digitalRead(REED_SWITCH) == HIGH) || attack || (interrupt_pir > SENSITIVITY) ) && !called )
         {
-          called = true;
+          detachInterrupt(digitalPinToInterrupt(PIR));
+          timer(false);
+          attack = true;
+          Serial.println("Debug0");
           Sim800l.callNumber(number);
-          //delay(3000);
-          
-          if( alarm_counter - TIME_FOR_UNLOCK > TIME_BEFORE_HANG )
-          {
-            alarm_counter = 0;
-            Sim800l.hangoffCall();
-            Serial.println("hanged out the call");
-          }
-        occurance ++;
-        Serial.println("ALARM!!!");
+          delay(TIME_BEFORE_HANG * 1000);
+          Sim800l.hangoffCall();
+          Serial.println("hanged out the call");
+          occurance ++;
+          Serial.println("ALARM!!!");
         
-        if(occurance > 3 )
+        if(occurance >= REPEAT_CALLS )
         {
           digitalWrite(SIGNAL,HIGH);
+          called = true;
+          alarm_counter = 0;
         }
+        timer(true);
         }
-     if(alarm_counter > 3 * TIME_FOR_UNLOCK)
+     if((alarm_counter > 3 * TIME_FOR_UNLOCK) && !called)
      {
       timer(false);
       lock();
+      interrupt_pir = 0;
       alarm = false;
      }
-      
     }
-    if(correct)
+    if(correct || (alarm_counter > (TIME_OF_ATTACK * 60)))
     {
-      
+      //if(called && !correct) Sim800l.sendSms(number,"Alarm wylaczony automatycznie");
       timer(false);
       Serial.println("Unlocked");
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
+      detachInterrupt(digitalPinToInterrupt(PIR));
       Sim800l.hangoffCall();
       called = false;
       digitalWrite(SIGNAL,LOW);
       delay(2000);
+      interrupt_pir = 0;
       occurance = 0;
       alarm_counter = 0;
       alarm = false;
@@ -190,7 +200,7 @@ void lock()
   Serial.println("Locked");
   EIFR = 0x11;
   attachInterrupt(digitalPinToInterrupt(REED_SWITCH),int0, RISING);
-  //attachInterrupt(digitalPinToInterrupt(PIR),int0, FALLING);
+  attachInterrupt(digitalPinToInterrupt(PIR),int_pir, RISING);
   digitalWrite(GREEN_LED,LOW);
   delay(1000);
   if( digitalRead(REED_SWITCH) == HIGH ) int0();
@@ -201,7 +211,7 @@ void int0()
   digitalWrite(RED_LED,HIGH);
   digitalWrite(GREEN_LED,HIGH);
   detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
-
+  //detachInterrupt(digitalPinToInterrupt(PIR));
  
   alarm_counter = 0;
   if(alarm == false)
@@ -210,6 +220,23 @@ void int0()
    alarm = true;
   }
 
+}
+
+void int_pir()
+{
+  cli();
+  interrupt_pir ++;
+  timer(true);
+  if (interrupt_pir > SENSITIVITY)
+  {
+    alarm = true;
+    digitalWrite(RED_LED,HIGH);
+    digitalWrite(GREEN_LED,HIGH);
+  }
+  Serial.print("Int pir: ");
+  Serial.println(interrupt_pir);
+  EIFR = 0x11;
+  sei();
 }
 
 void timer(bool enable)
@@ -221,15 +248,16 @@ void timer(bool enable)
   else TIMSK1 &= ~(1 << OCIE1A);
 }
 
+void stop_timer()
+{
+  timer(false);
+  alarm_counter = 0;
+  interrupt_pir = 0;
+}
 ISR(TIMER1_COMPA_vect)
 {
   cli();
   alarm_counter ++;
   Serial.println(alarm_counter);
-  //if(alarm_counter == TIME_FOR_UNLOCK)
-  //{
-   // alarm = true;
-   // alarm_counter = 0;
-  //  TIMSK1 &= ~(1 << OCIE1A);
   sei();
 }
