@@ -20,12 +20,12 @@ PN532_I2C i2c(Wire);
 PN532 nfc(i2c);
 
 Sim800l Sim800l;  //to declare the library
-char * number = "+48664059986";
+char * number = "+xxxxxxxxxxx";
 bool error; //to catch the response of sendSms
 volatile uint8_t card[NUMBER_OF_CARDS][4] = {
                                             {0xCA,0x48,0x79, 0x81},
                                             {0xD6, 0xB3, 0x0B, 0x0F},
-                                            {0x3A, 0xAF, 0x00, 0x81},
+                                            {0xC6, 0x54, 0x0C, 0x0F},
                                             {0xD6, 0x92, 0x14, 0x0F}
                                             };
 
@@ -133,7 +133,7 @@ void loop() {
     }
     if(correct || (alarm_counter > (TIME_OF_ATTACK * 60)))
     {
-      //if(called && !correct) Sim800l.sendSms(number,"Alarm wylaczony automatycznie");
+      if(called && !correct) Sim800l.sendSms(number,"Alarm wylaczony automatycznie");
       timer(false);
       Serial.println("Unlocked");
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
