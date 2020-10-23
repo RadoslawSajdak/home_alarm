@@ -20,7 +20,7 @@ PN532_I2C i2c(Wire);
 PN532 nfc(i2c);
 
 Sim800l Sim800l;  //to declare the library
-char * number = "+48664059986";
+char * number = "+48666814401";
 bool error; //to catch the response of sendSms
 volatile uint8_t card[NUMBER_OF_CARDS][4] = {
                                             {0xCA,0x48,0x79, 0x81},
@@ -37,6 +37,7 @@ volatile uint8_t occurance = 0;
 volatile bool called = false;
 volatile bool attack = false;
 volatile uint8_t interrupt_pir = 0;
+volatile bool auto_off = false;
 void setup() {
   //Outputs setup
   pinMode(RED_LED,OUTPUT);
@@ -89,7 +90,7 @@ void loop() {
     digitalWrite(RED_LED,LOW);
     digitalWrite(GREEN_LED,HIGH);
     correct = readUID();
-      if(correct)
+      if(correct || auto_off)
       {
         lock();
       }
@@ -129,11 +130,17 @@ void loop() {
       lock();
       interrupt_pir = 0;
       alarm = false;
+      auto_off = false;
      }
     }
     if(correct || (alarm_counter > (TIME_OF_ATTACK * 60)))
     {
-      if(called && !correct) Sim800l.sendSms(number,"Alarm wylaczony automatycznie");
+      auto_off = false;
+      if(called && !correct) 
+      {
+        Sim800l.sendSms(number,"Alarm wylaczony automatycznie");
+        auto_off = true;
+      }
       timer(false);
       Serial.println("Unlocked");
       detachInterrupt(digitalPinToInterrupt(REED_SWITCH));
@@ -199,7 +206,7 @@ void lock()
   }
   Serial.println("Locked");
   EIFR = 0x11;
-  attachInterrupt(digitalPinToInterrupt(REED_SWITCH),int0, RISING);
+  if(!auto_off) attachInterrupt(digitalPinToInterrupt(REED_SWITCH),int0, RISING);
   attachInterrupt(digitalPinToInterrupt(PIR),int_pir, RISING);
   digitalWrite(GREEN_LED,LOW);
   delay(1000);
