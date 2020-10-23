@@ -11,16 +11,16 @@
 #define GREEN_LED 4
 #define SIGNAL A0
 #define NUMBER_OF_CARDS 4
-#define TIME_FOR_UNLOCK 20
+#define TIME_FOR_UNLOCK 15
 #define TIME_BEFORE_HANG 20
-#define TIME_OF_ATTACK 2//in minutes
-#define REPEAT_CALLS 3
-#define SENSITIVITY 15
+#define TIME_OF_ATTACK 7//in minutes
+#define REPEAT_CALLS 2
+#define SENSITIVITY 8
 PN532_I2C i2c(Wire);
 PN532 nfc(i2c);
 
 Sim800l Sim800l;  //to declare the library
-char * number = "+xxxxxxxxxxx";
+char * number = "+48664059986";
 bool error; //to catch the response of sendSms
 volatile uint8_t card[NUMBER_OF_CARDS][4] = {
                                             {0xCA,0x48,0x79, 0x81},
